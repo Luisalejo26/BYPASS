@@ -1,0 +1,13 @@
+name: Build Tweat
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: theos/setup-theos@v1
+      - run: make package
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MiTweak-Build
+          path: packages/*.deb
