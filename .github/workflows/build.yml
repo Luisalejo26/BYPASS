@@ -1,13 +1,23 @@
 name: Build Tweat
-on: [push]
+on: [push, pull_request]
+
 jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: theos/setup-theos@v1
-      - run: make package
-      - uses: actions/upload-artifact@v3
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          name: MiTweak-Build
-          path: packages/*.deb
+          submodules: recursive
+
+      -name: Setup Theos
+       uses: theos/setup-theos@master
+
+      -name:Build Package
+       uses: make package FINALPACKAGE=1
+
+      -name: Upload Artifact
+       uses: actions/upload-artifact@v4
+       with:
+         name: MiTweak-Build
+         path: packages/*.deb
