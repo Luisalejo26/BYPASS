@@ -5,9 +5,11 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: theos/setup-theos@master
-      - run: make package
-      - uses: actions/upload-artifact@v4
         with:
-          name: MiTweak
-          path: packages/*.deb
+          submodules: recursive
+
+      - name: Setup Theos
+        uses: theos/setup-theos@v1  # Esta versión es la correcta
+
+      - name: Build Package
+        run: make package FINALPACKAGE=1
